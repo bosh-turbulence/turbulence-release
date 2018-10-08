@@ -1,27 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e -x
+set -eu
+set -x
 
-export GOPATH=$PWD
-
-deps=$PWD/deps.txt
-
-rm -f $deps
-
-cd src
-
-# Remove all deps
-find * -maxdepth 3 -type d | grep -v '^github.com\(/cppforlife\(/turbulence.*\)*\)*$' | xargs rm -rf
-
-go get -d -t -v github.com/cppforlife/turbulence/...
-
-# Remove all .git folders
-dirs=$(find * -type d -name '.git')
-
-for dir in $dirs; do
-  # Capture deps info
-  echo "$(cd $dir/.. && git rev-parse --short HEAD) $dir" >> $deps
-
-  # Remove .git directory
-  rm -rf $dir
-done
+current_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+export GOPATH=$current_dir
+pushd "$current_dir/src/turbulence"
+rm -rf .git
+GO111MODULE=on go mod vendor
+popd
