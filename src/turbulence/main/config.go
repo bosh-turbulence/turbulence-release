@@ -20,7 +20,7 @@ type Config struct {
 	CertificatePath string
 	PrivateKeyPath  string
 
-	Director director.FactoryConfig
+	Director director.Config
 }
 
 func NewConfigFromPath(path string, fs boshsys.FileSystem) (Config, error) {

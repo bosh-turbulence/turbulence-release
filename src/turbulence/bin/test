@@ -1,32 +1,23 @@
 #!/bin/bash
+set -eu
 
-result=0
-
-bin=$(cd `dirname $0`; pwd)
+bin=$(cd "$(dirname "$0")"; pwd)
 
 GOBIN=$bin go install github.com/onsi/ginkgo/ginkgo
 
-echo -e "\n Formatting packages..."
+echo
+echo "Formatting packages..."
 go fmt github.com/bosh-turbulence/turbulence/...
 go fmt github.com/bosh-turbulence/turbulence-example-test/...
-let "result+=$?"
 
-echo -e "\n Testing packages..."
+echo
+echo "Testing packages..."
 $bin/ginkgo -r $bin/..
-let "result+=$?"
 
-echo -e "\n Running build script to confirm api server compiles..."
-go build -o $bin/api $bin/../main/*.go
-let "result+=$?"
+echo
+echo "Running build script to confirm api server compiles..."
+go build -o "$bin/api" "$bin/../main/*.go"
 
 echo -e "\n Running build script to confirm agent server compiles..."
 go build -o $bin/agent $bin/../agent/*.go
-let "result+=$?"
 
-if [ $result -eq 0 ]; then
-  echo -e "\nSUITE SUCCESS"
-else
-  echo -e "\nSUITE FAILURE"
-fi
-
-exit $result

@@ -45,7 +45,7 @@ func basicDeps(debug bool) (boshlog.Logger, boshsys.FileSystem, boshsys.CmdRunne
 		logLevel = boshlog.LevelDebug
 	}
 
-	logger := boshlog.NewWriterLogger(logLevel, os.Stderr, os.Stderr)
+	logger := boshlog.NewWriterLogger(logLevel, os.Stderr)
 	fs := boshsys.NewOsFileSystem(logger)
 	runner := boshsys.NewExecCmdRunner(logger)
 	uuidGen := boshuuid.NewGenerator()

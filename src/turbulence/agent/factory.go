@@ -111,5 +111,5 @@ func (f Factory) httpClient() (Client, error) {
 
 	httpClient := boshhttp.NewHTTPClient(&http.Client{Transport: httpTransport}, f.logger)
 
-	return NewClient(endpoint.String(), httpClient, f.logger), nil
+	return NewClient(endpoint.String(), *httpClient, f.logger), nil
 }
