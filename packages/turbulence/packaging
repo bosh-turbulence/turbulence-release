@@ -1,12 +1,12 @@
 set -e -x
 
-source /var/vcap/packages/golang-1.8-linux/bosh/compile.env
-
-mkdir ../src && cp -a * ../src/ && mv ../src ./src
+source /var/vcap/packages/golang-1.11-linux/bosh/compile.env
 
 mkdir $BOSH_INSTALL_TARGET/bin
+export GOCACHE=$PWD/cache
+cd turbulence
 
-go build -o $BOSH_INSTALL_TARGET/bin/api src/github.com/cppforlife/turbulence/main/*.go
-go build -o $BOSH_INSTALL_TARGET/bin/agent src/github.com/cppforlife/turbulence/agent/*.go
+go build -mod vendor -o $BOSH_INSTALL_TARGET/bin/api main/*.go
+go build -mod vendor -o $BOSH_INSTALL_TARGET/bin/agent agent/*.go
 
-cp -R src/github.com/cppforlife/turbulence/{public,templates} $BOSH_INSTALL_TARGET/
+cp -R {public,templates} $BOSH_INSTALL_TARGET/

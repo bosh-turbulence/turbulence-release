@@ -2,13 +2,7 @@
 name: turbulence
 
 dependencies:
-- golang-1.8-linux
+- golang-1.11-linux
 
 files:
-- "**/*.go"
-- github.com/cppforlife/turbulence/public/**/*
-- github.com/cppforlife/turbulence/templates/**/*
-
-excluded_files:
-- github.com/onsi/ginkgo/**/*
-- github.com/onsi/gomega/**/*
+- turbulence/**/*
