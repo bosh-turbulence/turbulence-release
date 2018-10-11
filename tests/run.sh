@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -e # -x
+set -e -x
+set -u
 
 echo "-----> $(date): Upload stemcell"
 bosh upload-stemcell --sha1 99a0cd90a4cdfcc50ece4589f130355d0232504c \
