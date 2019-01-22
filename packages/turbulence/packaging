@@ -1,6 +1,6 @@
 set -e -x
 
-source /var/vcap/packages/golang-1.11-linux/bosh/compile.env
+source /var/vcap/packages/golang-1-linux/bosh/compile.env
 
 mkdir $BOSH_INSTALL_TARGET/bin
 export GOCACHE=$PWD/cache

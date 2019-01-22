@@ -1,6 +1,6 @@
 ---
 final_name: turbulence
 blobstore:
-  provider: s3
+  provider: gcs
   options:
-    bucket_name: turbulence-blobs
+    bucket_name: turbulence-blobstore
