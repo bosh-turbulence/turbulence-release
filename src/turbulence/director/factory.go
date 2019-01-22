@@ -1,6 +1,8 @@
 package director
 
 import (
+	cmdconf "github.com/cloudfoundry/bosh-cli/cmd/config"
+
 	boshdir "github.com/cloudfoundry/bosh-cli/director"
 	boshuaa "github.com/cloudfoundry/bosh-cli/uaa"
 	bosherr "github.com/cloudfoundry/bosh-utils/errors"
@@ -48,7 +50,7 @@ func (c Factory) director() (boshdir.Director, error) {
 	taskReporter := boshdir.NewNoopTaskReporter()
 	fileReporter := boshdir.NewNoopFileReporter()
 
-	return boshdir.NewFactory(c.logger).New(dirConfig, taskReporter, fileReporter)
+	return boshdir.NewFactory(c.logger).New(dirConfig, cmdconf.FSConfig{}, taskReporter, fileReporter)
 }
 
 func (c Factory) uaa(info boshdir.Info) (boshuaa.UAA, error) {
@@ -78,7 +80,7 @@ func (c Factory) uaa(info boshdir.Info) (boshuaa.UAA, error) {
 func (c Factory) info() (boshdir.Info, error) {
 	dirConfig := c.config.AnonymousUserConfig()
 
-	director, err := boshdir.NewFactory(c.logger).New(dirConfig, nil, nil)
+	director, err := boshdir.NewFactory(c.logger).New(dirConfig, cmdconf.FSConfig{}, nil, nil)
 	if err != nil {
 		return boshdir.Info{}, err
 	}

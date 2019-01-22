@@ -7,17 +7,17 @@ GOBIN=$bin go install github.com/onsi/ginkgo/ginkgo
 
 echo
 echo "Formatting packages..."
-go fmt github.com/bosh-turbulence/turbulence/...
-go fmt github.com/bosh-turbulence/turbulence-example-test/...
+go fmt ./...
 
 echo
 echo "Testing packages..."
-$bin/ginkgo -r $bin/..
+"$bin"/ginkgo -keepGoing -skipPackage turbulence-example-test  -r "$bin"/..
 
 echo
 echo "Running build script to confirm api server compiles..."
-go build -o "$bin/api" "$bin/../main/*.go"
+go build -o "$bin/api" "$bin"/../main/*.go
 
-echo -e "\n Running build script to confirm agent server compiles..."
-go build -o $bin/agent $bin/../agent/*.go
+echo
+echo "Running build script to confirm agent server compiles..."
+go build -o "$bin"/agent "$bin"/../agent/*.go
 

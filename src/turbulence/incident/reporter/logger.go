@@ -54,7 +54,7 @@ func (r Logger) ReportEventExecutionCompletion(incidentID string, e Event) {
 }
 
 func (r Logger) incidentDesc(prefix string, i Incident) string {
-	return fmt.Sprintf("%s incident='%s' types='%s'", prefix, i.ID, strings.Join(i.TaskTypes(), ","))
+	return fmt.Sprintf("%s incident='%s' types='%s'", prefix, i.ID(), strings.Join(i.TaskTypes(), ","))
 }
 
 func (r Logger) eventDesc(prefix string, e Event) string {

@@ -8,11 +8,13 @@ import (
 	boshsys "github.com/cloudfoundry/bosh-utils/system"
 
 	"github.com/bosh-turbulence/turbulence/director"
+	"github.com/bosh-turbulence/turbulence/incident/reporter"
 )
 
 type Config struct {
-	ListenAddress string
-	ListenPort    int
+	ListenAddress   string
+	ListenPort      int
+	AgentListenPort int
 
 	Username string
 	Password string
@@ -21,6 +23,8 @@ type Config struct {
 	PrivateKeyPath  string
 
 	Director director.Config
+
+	Datadog reporter.DatadogConfig
 }
 
 func NewConfigFromPath(path string, fs boshsys.FileSystem) (Config, error) {
@@ -48,6 +52,10 @@ func (c Config) ListenAddr() string {
 	return fmt.Sprintf("%s:%d", c.ListenAddress, c.ListenPort)
 }
 
+func (c Config) AgentListenAddr() string {
+	return fmt.Sprintf("%s:%d", c.ListenAddress, c.AgentListenPort)
+}
+
 func (c Config) Validate() error {
 	if len(c.ListenAddress) == 0 {
 		return bosherr.Error("Missing 'ListenAddress'")
@@ -55,6 +63,10 @@ func (c Config) Validate() error {
 
 	if c.ListenPort == 0 {
 		return bosherr.Error("Missing 'ListenPort'")
+	}
+
+	if c.AgentListenPort == 0 {
+		return bosherr.Error("Missing 'AgentListenPort'")
 	}
 
 	if len(c.Username) == 0 {
@@ -76,6 +88,11 @@ func (c Config) Validate() error {
 	err := c.Director.Validate()
 	if err != nil {
 		return bosherr.WrapError(err, "Validating 'Director' config")
+	}
+
+	err = c.Datadog.Validate()
+	if err != nil {
+		return bosherr.WrapError(err, "Validating 'Datadog' config")
 	}
 
 	return nil
