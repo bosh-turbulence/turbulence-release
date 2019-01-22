@@ -4,10 +4,10 @@ set -eu
 set -x
 
 current_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
-export GOPATH=$current_dir
 rm -rf "$current_dir/src/turbulence"
 git clone https://github.com/bosh-turbulence/turbulence "$current_dir/src/turbulence"
 pushd "$current_dir/src/turbulence"
 rm -rf .git*
 GO111MODULE=on go mod vendor
+./bin/test
 popd
